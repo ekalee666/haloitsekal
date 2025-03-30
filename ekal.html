@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Theme</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: var(--primary-color, blue);
+            color: white;
+        }
+        button, select {
+            padding: 5px;
+            margin-left: 10px;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>Website Theme Customization</h1>
+        <button id="toggleTheme">Toggle Dark Mode</button>
+        <select id="colorPicker">
+            <option value="blue">Blue</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="purple">Purple</option>
+        </select>
+    </nav>
+    <main>
+        <h2>Welcome to Your Personalized Dashboard</h2>
+        <p>Change the theme settings and see the effect immediately!</p>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleThemeBtn = document.getElementById('toggleTheme');
+            const colorPicker = document.getElementById('colorPicker');
+
+            // Load saved preferences from localStorage
+            const savedDarkMode = localStorage.getItem('dark_mode') === 'true';
+            const savedPrimaryColor = localStorage.getItem('primary_color') || 'blue';
+
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+            }
+            document.documentElement.style.setProperty('--primary-color', savedPrimaryColor);
+            colorPicker.value = savedPrimaryColor;
+
+            toggleThemeBtn.addEventListener('click', function () {
+                document.body.classList.toggle('dark-mode');
+                savePreferences();
+            });
+
+            colorPicker.addEventListener('change', function () {
+                document.documentElement.style.setProperty('--primary-color', this.value);
+                savePreferences();
+            });
+
+            function savePreferences() {
+                const darkMode = document.body.classList.contains('dark-mode');
+                const primaryColor = colorPicker.value;
+
+                localStorage.setItem('dark_mode', darkMode);
+                localStorage.setItem('primary_color', primaryColor);
+            }
+        });
+    </script>
+</body>
+</html>
